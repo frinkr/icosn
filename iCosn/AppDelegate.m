@@ -9,13 +9,17 @@
 #import "AppDelegate.h"
 #import "FRFileDropView.h"
 #import "FRImageHelper.h"
+#import "FRSizeWindowController.h"
 
-@interface AppDelegate ()
+@interface AppDelegate () {
+    FRSizeWindowController * _sizeWindowController;
+}
 @property (weak) IBOutlet FRFileDropView * iosAppView;
 @property (weak) IBOutlet FRFileDropView * macAppView;
 @property (weak) IBOutlet FRFileDropView * imageView;
 
 @property (weak) IBOutlet NSWindow * window;
+
 @end
 
 @implementation AppDelegate
@@ -48,7 +52,7 @@
     for (size_t i = 0; i < sizeof(allSizes) / sizeof(allSizes[0]); ++i) {
         [p addObject:[NSValue valueWithSize:CGSizeMake(allSizes[i], allSizes[i])]];
     }
-    
+
     for (NSString * filePath in dropFiles) {
         [self imageSetFromFile:filePath sizes:p];
     }
@@ -56,34 +60,44 @@
 
 - (void)handleMacViewDropFiles:(NSArray *)dropFiles {
     NSUInteger allSizes[] = {16, 32, 64, 128, 256, 512, 1024};
-    
+
     NSMutableArray * p = [NSMutableArray new];
     for (size_t i = 0; i < sizeof(allSizes) / sizeof(allSizes[0]); ++i) {
         [p addObject:[NSValue valueWithSize:CGSizeMake(allSizes[i], allSizes[i])]];
     }
-    
+
     for (NSString * filePath in dropFiles) {
         [self imageSetFromFile:filePath sizes:p];
     }
 }
 
 - (void)handleImageViewDropFiles:(NSArray *)dropFiles {
+    if (!_sizeWindowController) {
+        _sizeWindowController = [[FRSizeWindowController alloc] init];
+    }
     
+    [self.window beginSheet:_sizeWindowController.window completionHandler:^(NSModalResponse returnCode) {
+        if (returnCode == NSModalResponseOK)
+        {
+            //TODO: Do the work
+        }
+    }];
+
 }
 
 #pragma mark - imageCreation
-- (BOOL)imageSetFromFile:(NSString*) filePath sizes:(NSArray *)allSizes {
+- (BOOL)imageSetFromFile:(NSString *)filePath sizes:(NSArray *)allSizes {
     NSImage * image = [[NSImage alloc] initWithContentsOfFile:filePath];
     if (!image.isValid) {
-        [self alertCannotOpenFile:filePath fromView:self.iosAppView];
+        [self alertCannotOpenFile:filePath];
         return FALSE;
     }
-    
+
     NSString * fileExtension = [filePath pathExtension];
     NSString * fileNameBase = [[filePath lastPathComponent] stringByDeletingPathExtension];
     NSString * fileDirectory = [filePath stringByDeletingLastPathComponent];
-    
-    [allSizes enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+
+    [allSizes enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL * stop) {
         NSValue * value = (NSValue*)obj;
         CGSize size = [value sizeValue];
         NSImage * newImage = [FRImageHelper imageWithImage:image size:size];
@@ -95,25 +109,24 @@
                                                   (int)size.height,
                                                   fileExtension]];
     }];
-    
+
     return TRUE;
 }
 
 #pragma mark - Alert
 
-- (void)alertCannotOpenFile:(NSString *)file fromView:(NSView *)view {
-    [self alertFromView:view message:file informativeText:[NSString stringWithFormat:@"Can not open file \"%@\"", file, nil]];
+- (void)alertCannotOpenFile:(NSString *)file {
+    [self alertWithMessage:file informativeText:[NSString stringWithFormat:@"Can not open file \"%@\"", file, nil]];
 }
 
-- (void)alertFromView:(NSView *)view
-              message:(NSString *)message
-      informativeText:(NSString *)informativeText {
+- (void)alertWithMessage:(NSString *)message
+         informativeText:(NSString *)informativeText {
 
     NSAlert * alert = [[NSAlert alloc] init];
     alert.alertStyle = NSCriticalAlertStyle;
     alert.messageText = message;
     alert.informativeText = informativeText;
-    [alert beginSheetModalForWindow:[view window] completionHandler:^(NSModalResponse returnCode){
+    [alert beginSheetModalForWindow:[self window] completionHandler:^(NSModalResponse returnCode){
 
     }];
 }

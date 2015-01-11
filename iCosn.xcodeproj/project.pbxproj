@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0365D5431A62B11600683791 /* FRSizeWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0365D5411A62B11600683791 /* FRSizeWindowController.m */; };
+		0365D5441A62B11600683791 /* FRSizeWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0365D5421A62B11600683791 /* FRSizeWindowController.xib */; };
 		03EC3A0A1A6216FB0046B8FD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 03EC3A091A6216FB0046B8FD /* AppDelegate.m */; };
 		03EC3A0C1A6216FB0046B8FD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 03EC3A0B1A6216FB0046B8FD /* main.m */; };
 		03EC3A0E1A6216FB0046B8FD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 03EC3A0D1A6216FB0046B8FD /* Images.xcassets */; };
@@ -27,6 +29,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0365D5401A62B11600683791 /* FRSizeWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRSizeWindowController.h; sourceTree = "<group>"; };
+		0365D5411A62B11600683791 /* FRSizeWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRSizeWindowController.m; sourceTree = "<group>"; };
+		0365D5421A62B11600683791 /* FRSizeWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FRSizeWindowController.xib; sourceTree = "<group>"; };
 		03EC3A031A6216FB0046B8FD /* iCosn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iCosn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		03EC3A071A6216FB0046B8FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		03EC3A081A6216FB0046B8FD /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -86,6 +91,9 @@
 				03EC3A2D1A6224EA0046B8FD /* FRImageHelper.m */,
 				03EC3A261A621B750046B8FD /* FRFileDropView.h */,
 				03EC3A271A621B750046B8FD /* FRFileDropView.m */,
+				0365D5401A62B11600683791 /* FRSizeWindowController.h */,
+				0365D5411A62B11600683791 /* FRSizeWindowController.m */,
+				0365D5421A62B11600683791 /* FRSizeWindowController.xib */,
 				03EC3A081A6216FB0046B8FD /* AppDelegate.h */,
 				03EC3A091A6216FB0046B8FD /* AppDelegate.m */,
 				03EC3A0D1A6216FB0046B8FD /* Images.xcassets */,
@@ -203,6 +211,7 @@
 			files = (
 				03EC3A0E1A6216FB0046B8FD /* Images.xcassets in Resources */,
 				03EC3A111A6216FB0046B8FD /* MainMenu.xib in Resources */,
+				0365D5441A62B11600683791 /* FRSizeWindowController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -220,6 +229,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0365D5431A62B11600683791 /* FRSizeWindowController.m in Sources */,
 				03EC3A0C1A6216FB0046B8FD /* main.m in Sources */,
 				03EC3A281A621B750046B8FD /* FRFileDropView.m in Sources */,
 				03EC3A2E1A6224EA0046B8FD /* FRImageHelper.m in Sources */,
