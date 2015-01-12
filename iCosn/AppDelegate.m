@@ -75,14 +75,20 @@
     if (!_sizeWindowController) {
         _sizeWindowController = [[FRSizeWindowController alloc] init];
     }
-    
-    [self.window beginSheet:_sizeWindowController.window completionHandler:^(NSModalResponse returnCode) {
-        if (returnCode == NSModalResponseOK)
-        {
-            //TODO: Do the work
-        }
-    }];
 
+    for (NSString * filePath in dropFiles) {
+        _sizeWindowController.imageFile = filePath;
+        [self.window beginSheet:_sizeWindowController.window completionHandler:^(NSModalResponse returnCode) {
+            if (returnCode == NSModalResponseOK)
+            {
+                NSSize x3Size = _sizeWindowController.x3Size;
+                NSArray * p = @[[NSValue valueWithSize:CGSizeMake(x3Size.width/3, x3Size.height/3)],
+                                [NSValue valueWithSize:CGSizeMake(x3Size.width*2/3, x3Size.height*2/3)],
+                                [NSValue valueWithSize:x3Size]];
+                [self imageSetFromFile:filePath sizes:p];
+            }
+        }];
+    }
 }
 
 #pragma mark - imageCreation
@@ -97,19 +103,26 @@
     NSString * fileNameBase = [[filePath lastPathComponent] stringByDeletingPathExtension];
     NSString * fileDirectory = [filePath stringByDeletingLastPathComponent];
 
+    NSMutableArray * savedFilesURL = [[NSMutableArray alloc] init];
+    
     [allSizes enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL * stop) {
         NSValue * value = (NSValue*)obj;
         CGSize size = [value sizeValue];
         NSImage * newImage = [FRImageHelper imageWithImage:image size:size];
         
-        [FRImageHelper saveImage:newImage toFile:[NSString stringWithFormat:@"%@/%@@%dx%d.%@",
-                                                  fileDirectory,
-                                                  fileNameBase,
-                                                  (int)size.width,
-                                                  (int)size.height,
-                                                  fileExtension]];
+        NSString * newFilePath = [NSString stringWithFormat:@"%@/%@@%dx%d.%@",
+                                  fileDirectory,
+                                  fileNameBase,
+                                  (int)size.width,
+                                  (int)size.height,
+                                  fileExtension];
+        [FRImageHelper saveImage:newImage toFile:newFilePath];
+        
+        [savedFilesURL addObject:[[NSURL alloc] initFileURLWithPath:newFilePath]];
     }];
 
+    // Open the folder in Finder with files selected
+    [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs: savedFilesURL];
     return TRUE;
 }
 

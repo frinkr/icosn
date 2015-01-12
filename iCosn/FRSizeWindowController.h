@@ -9,4 +9,6 @@
 #import <Cocoa/Cocoa.h>
 
 @interface FRSizeWindowController : NSWindowController
+@property (copy, nonatomic) NSString * imageFile;
+@property (readonly) NSSize x3Size;
 @end
